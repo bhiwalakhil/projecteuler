@@ -13,15 +13,12 @@ def is_prime(number):
             return False
     return True
 
-# Returns sum of all prime numbers of given number
-def prime_factors_sum(number):
-    arr = []
-    for i in range(2, int(number**0.5)):
-        if number % i == 0 and is_prime(i):
-            arr.append(i)
-    print arr
-    return sum(arr)
-
 if __name__=='__main__':
-    N = 600851475143
-    print prime_factors_sum(N)
+    count,i = 0,1
+    N = 10001
+    while count != N:
+        i += 1
+        if is_prime(i):
+            count += 1
+
+    print i

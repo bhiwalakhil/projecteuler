@@ -1,3 +1,5 @@
+__author__ = 'akhilbhiwal'
+
 # Returns True if given number is prime else returns False
 def is_prime(number):
     if number <=3:
@@ -11,17 +13,7 @@ def is_prime(number):
             return False
     return True
 
-# Returns a list of prime factors of given number.
-def get_prime_factors(number):
-    arr = []
-    for i in range(1, int(number**0.5)):
-        if number % i == 0 and is_prime(i):
-            arr.append(i)
-    if is_prime(number):
-        arr.append(number)
-    return arr
-
-# Returns prime numbers from 1 to number
+# Returns a list of prime numbers from 1 to number
 def get_primes(number):
     prime_list = []
     for i in range(1, number+1):
@@ -29,53 +21,45 @@ def get_primes(number):
             prime_list.append(i)
     return prime_list
 
-# Returns factor of given number
-def get_factors(number):
-    factors = []
-    for i in range(1, int(number/2)+1):
-        if number % i == 0:
-            factors.append(i)
-    if is_prime(number):
-        factors.append(number)
-    return factors
-
-
-def factors(number):
-    prime_list = get_primes(number)
-    prime_dict = {}
-    for elem in prime_list:
-        prime_dict[elem] = 1
-    print prime_dict
-
-    for i in range(1, number+1):
-        temp = i
-        j = 0
-        while temp and j < len(prime_list):
-            print temp
-            if temp % prime_list[j] == 0:
-                prime_dict[prime_list[j]] += 1
-                temp /= prime_list[j]
-                j += 1
-            else:
+# Returns a dictionary of prime factors passed as an argument.
+def get_prime_factors(number, prime_numbers_list, smallest_multiple_dict):
+    prime_factors = []
+    i = 0
+    # finds all prime factor of number and add them to prime_factors list
+    while i < len(prime_numbers_list):
+        if number % prime_numbers_list[i] == 0:
+            prime_factors.append(prime_numbers_list[i])
+            number = number/prime_numbers_list[i]
+            if number == 1:
                 break
-    print prime_dict
-    prod = 1
-    for elem in prime_dict.keys():
-        prod *= elem**prime_dict[elem]
-    return prod
+        else:
+            i += 1
 
-def first_n_factors(n):
-    all_factors = []
-    for i in range(1,n+1):
-        all_factors += get_factors(i)
-    unique_factors = list(set(all_factors))
-    print unique_factors
-    prod = 1
-    for elem in unique_factors:
-        prod *= elem
-    return prod
+    # updates the dictionary with count of prime factors
+    j = 0
+    while j < len(prime_factors):
+        num_count = prime_factors.count(prime_factors[j])
+        if num_count > smallest_multiple_dict.get(prime_factors[j]):
+            smallest_multiple_dict[prime_factors[j]] = num_count
+        j = j+num_count
+    return smallest_multiple_dict
+
+# Computes the smallest positive number which is evenly divisible by all number from 1 to N
+def smallesMultiple(N):
+    # smallest_multiple_dict stores count of prime numbers
+    smallest_multiple_dict = {}
+    prime_numbers_list = get_primes(N)
+
+    for i in range(2, N+1):
+        smallest_multiple_dict = get_prime_factors(i, prime_numbers_list, smallest_multiple_dict)
+
+
+    multiple = 1
+    for key in smallest_multiple_dict.keys():
+        multiple *= key ** smallest_multiple_dict[key]
+
+    return multiple
 
 if __name__=='__main__':
-#    print [get_prime_factors(i) for i in range(1,20)]
-    print factors(10)
-#    print first_n_factors(10)
+    N = 10
+    print smallesMultiple(N)
