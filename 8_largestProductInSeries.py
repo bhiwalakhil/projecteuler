@@ -1,13 +1,13 @@
 __author__ = 'akhilbhiwal'
 
-from nDigitNumber import generate
 import numpy as np
 
+# Computes the largest product of N consecutive strings from number_text
 def largest_product(N, number_text):
     max_product = 0
 
     for i in range(len(number_text) - N):
-        first_n = number_text[i:i+N]
+        first_n = number_text[i:i + N]
         product = 1
 
         for j in first_n:
@@ -17,29 +17,31 @@ def largest_product(N, number_text):
             max_product = product
     return max_product
 
+
 # TODO: Fix the index error and compare the performance with previous function
 def largest_product2(N, number_text):
     product = np.prod([int(ch) for ch in number_text[:N]])
     max_product = product
 
-    for i in range(1, len(number_text)-N):
-        first = int(number_text[i-1])
-        next_num = int(number_text[i+N-1])
+    for i in range(1, len(number_text) - N):
+        first = int(number_text[i - 1])
+        next_num = int(number_text[i + N - 1])
 
         if next_num:
-            product = (product*next_num)/first
+            product = (product * next_num) / first
         else:
-            if i+(2*N-1) > len(number_text)-1:
+            if i + (2 * N - 1) > len(number_text) - 1:
                 return max_product
             else:
                 i = i + N
-                product = np.prod([int(ch) for ch in number_text[i:i+N]])
+                product = np.prod([int(ch) for ch in number_text[i:i + N]])
 
         if product > max_product:
             max_product = product
     return max_product
 
-if __name__=='__main__':
+
+if __name__ == '__main__':
     number_text = """
             73167176531330624919225119674426574742355349194934
             96983520312774506326239578318016984801869478851843
@@ -63,11 +65,14 @@ if __name__=='__main__':
             71636269561882670428252483600823257530420752963450
             """
     N = 13
+    # Cleaning up the string. Removing spaces and \n
     number_text = number_text.strip()
-    number_text = number_text.replace(' ','')
+    number_text = number_text.replace(' ', '')
     number_text = number_text.replace('\n', '')
+
+    print largest_product(N, number_text)
+
 
     # number_text = str(generate(100000))
     # print number_text
-    print largest_product(N, number_text)
     # print largest_product2(N, number_text)

@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/../CTCI/.idea/CTCI.iml" filepath="$PROJECT_DIR$/../CTCI/.idea/CTCI.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/projecteuler.iml" filepath="$PROJECT_DIR$/.idea/projecteuler.iml" />
     </modules>
   </component>
